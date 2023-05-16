@@ -19,17 +19,21 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = 3003;
 app.use(express_1.default.json());
+var cors = require('cors');
+// use it before all route definitions
+// app.use(cors());
 app.get('/', (req, res) => {
     res.status(200);
     res.send("Welcome to root URL of Server");
 });
 app.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const keyword = req.query.keyword;
     if (keyword) {
         const books = yield (0, getBooks_1.getBooks)(keyword.toString());
         console.log("books", books.data);
         res.status(200);
-        res.send(JSON.stringify(books.data));
+        res.send(books.data);
     }
     else {
         res.status(404);

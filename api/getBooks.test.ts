@@ -1,23 +1,16 @@
-import axios, { AxiosResponse } from "axios"
+import axios, {AxiosResponse} from "axios"
 import { getBooks } from "./getBooks"
 jest.mock('axios')
 axios.get = jest.fn()
-let mockedAxios: any;
-beforeAll(() => {
-    jest.resetModules();
-    jest.resetAllMocks();
-
-    mockedAxios = axios as jest.Mocked<typeof axios>;
 
 
-});
+const mockKeyword = "Victorian family trying to work their way up in society. With a pompous dad, an accident prone son and a story full of shenanigans, it's easy to see how it paved the way for sitcoms like 'Modern Family' and 'Schitts Creek'. Written by the brothers George and Weedon Grossmith, this is a raucous tale that gives a window to the great British serial comedy. George and Weedon Grossmith were the sons of a court reporter, who was also a part-time stage"
+const apiURL = process.env.API_URL + "" + process.env.GOOGLE_API_KEY + `&q=${mockKeyword}`
 
 it('should return mock books data from axios get request', async () => {
-    const mockKeyword = "Victorian family trying to work their way up in society. With a pompous dad, an accident prone son and a story full of shenanigans, it's easy to see how it paved the way for sitcoms like 'Modern Family' and 'Schitts Creek'. Written by the brothers George and Weedon Grossmith, this is a raucous tale that gives a window to the great British serial comedy. George and Weedon Grossmith were the sons of a court reporter, who was also a part-time stage"
-    const apiURL = process.env.API_URL + "" + process.env.GOOGLE_API_KEY + `&q=${mockKeyword}`
-    const mockMovie: AxiosResponse = {
-        "kind": "books#volumes",
+    const mockMovie = {
         "totalItems": 1,
+        "kind": "books#volumes",
         "items": [
             {
                 "kind": "books#volume",
@@ -119,12 +112,26 @@ it('should return mock books data from axios get request', async () => {
         ]
     };
 
-    mockedAxios.get.mockResolvedValue("")
-    // (axios.get as jest.Mock<{}>).mockResolvedValue(mockMovie);
+    // axios.get.mockResolvedValue(mockMovie)
+    axios.mockResolvedValue(mockMovie);
 
     const response = await getBooks(mockKeyword)
 
-    expect(mockedAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockedAxios.get).toHaveBeenCalledWith(apiURL)
+    expect(axios.get).toHaveBeenCalledTimes(1)
+    expect(axios.get).toHaveBeenCalledWith(apiURL)
     expect(response).toEqual(mockMovie)
 })
+
+it('should handle API errors', async () => {
+    // Mocking Axios get request with an error
+    const mockError = new Error('API error');
+    axios.mockRejectedValue(mockError);
+
+    try {
+      // Your actual API call
+      await axios.get(apiURL);
+    } catch (error) {
+      expect(error).toEqual(mockError);
+      expect(axios.get).toHaveBeenCalledWith(apiURL);
+    }
+  });

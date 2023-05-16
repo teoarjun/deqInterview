@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684245068731" clover="3.2.0">
-  <project timestamp="1684245068731" name="All files">
+<coverage generated="1684248181267" clover="3.2.0">
+  <project timestamp="1684248181267" name="All files">
     <metrics statements="17" coveredstatements="8" conditionals="18" coveredconditionals="9" methods="10" coveredmethods="1" elements="45" coveredelements="18" complexity="0" loc="17" ncloc="17" packages="1" files="1" classes="1"/>
     <file name="getBooks.js" path="/Users/arjun/Documents/interview/server/api/getBooks.js">
       <metrics statements="17" coveredstatements="8" conditionals="18" coveredconditionals="9" methods="10" coveredmethods="1"/>

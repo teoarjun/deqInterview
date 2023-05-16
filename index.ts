@@ -7,6 +7,10 @@ const app: Express = express();
 const PORT = 3003;
 
 app.use(express.json());
+var cors = require('cors');
+
+// use it before all route definitions
+// app.use(cors());
 
 app.get('/', (req: Request, res: Response)=>{
   res.status(200);
@@ -14,6 +18,7 @@ app.get('/', (req: Request, res: Response)=>{
 });
 
 app.get('/search', async(req: Request, res: Response)=>{
+  res.setHeader('Access-Control-Allow-Origin', '*');
   const keyword = req.query.keyword
   if(keyword) {
     const books = await getBooks(keyword.toString())
