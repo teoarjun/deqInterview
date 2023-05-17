@@ -20,9 +20,10 @@ app.get('/', (req: Request, res: Response)=>{
 app.get('/search', async(req: Request, res: Response)=>{
   res.setHeader('Access-Control-Allow-Origin', '*');
   const keyword = req.query.keyword
+  const startIndex = req.query.startIndex?.toString()
+  const maxResults = req.query.maxResults?.toString()
   if(keyword) {
-    const books = await getBooks(keyword.toString())
-    console.log("books", books.data)
+    const books = await getBooks(keyword.toString(), maxResults, startIndex)
     res.status(200);
     res.send(books.data)
   } else {

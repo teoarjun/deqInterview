@@ -27,11 +27,13 @@ app.get('/', (req, res) => {
     res.send("Welcome to root URL of Server");
 });
 app.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     res.setHeader('Access-Control-Allow-Origin', '*');
     const keyword = req.query.keyword;
+    const startIndex = (_a = req.query.startIndex) === null || _a === void 0 ? void 0 : _a.toString();
+    const maxResults = (_b = req.query.maxResults) === null || _b === void 0 ? void 0 : _b.toString();
     if (keyword) {
-        const books = yield (0, getBooks_1.getBooks)(keyword.toString());
-        console.log("books", books.data);
+        const books = yield (0, getBooks_1.getBooks)(keyword.toString(), maxResults, startIndex);
         res.status(200);
         res.send(books.data);
     }

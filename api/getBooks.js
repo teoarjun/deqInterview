@@ -14,8 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBooks = void 0;
 const axios_1 = __importDefault(require("axios"));
-const getBooks = (keyword) => __awaiter(void 0, void 0, void 0, function* () {
-    const apiURL = process.env.API_URL + "" + process.env.GOOGLE_API_KEY + `&q=${keyword}`;
+const getBooks = (keyword, maxResults, startIndex) => __awaiter(void 0, void 0, void 0, function* () {
+    let apiURL = process.env.API_URL + "" + process.env.GOOGLE_API_KEY + `&q=${keyword}`;
+    if (startIndex) {
+        apiURL += `&startIndex=${startIndex}`;
+    }
+    if (maxResults) {
+        apiURL += `&maxResults=${maxResults}`;
+    }
     const data = yield axios_1.default.get(apiURL);
     return data;
 });
