@@ -10,7 +10,7 @@ app.use(express.json());
 var cors = require('cors');
 
 // use it before all route definitions
-// app.use(cors());
+app.use(cors());
 
 app.get('/', (req: Request, res: Response)=>{
   res.status(200);
@@ -32,10 +32,9 @@ app.get('/search', async(req: Request, res: Response)=>{
   }
 });
 
-app.listen(PORT, (error) => {
-  if (!error)
-    console.log("Server is Successfully Running, and App is listening on port " + PORT)
-  else
-    console.log("Error occurred, server can't start", error);
-}
-);
+app.listen(PORT, () => {
+  console.log("Server is Successfully Running, and App is listening on port " + PORT);
+})
+.on('error', (error: Error) => {
+  console.log("Error occurred, server can't start", error);
+});
