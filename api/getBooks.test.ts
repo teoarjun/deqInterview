@@ -1,137 +1,58 @@
-import axios, {AxiosResponse} from "axios"
-import { getBooks } from "./getBooks"
-jest.mock('axios')
-axios.get = jest.fn()
+import axios from "axios";
+import { getBooks } from "./getBooks";
 
 
-const mockKeyword = "Victorian family trying to work their way up in society. With a pompous dad, an accident prone son and a story full of shenanigans, it's easy to see how it paved the way for sitcoms like 'Modern Family' and 'Schitts Creek'. Written by the brothers George and Weedon Grossmith, this is a raucous tale that gives a window to the great British serial comedy. George and Weedon Grossmith were the sons of a court reporter, who was also a part-time stage"
-const apiURL = process.env.API_URL + "" + process.env.GOOGLE_API_KEY + `&q=${mockKeyword}`
+jest.mock("axios");
 
-it('should return mock books data from axios get request', async () => {
-    const mockMovie = {
-        "totalItems": 1,
-        "kind": "books#volumes",
-        "items": [
-            {
-                "kind": "books#volume",
-                "id": "6wFoEAAAQBAJ",
-                "etag": "Iw9SOfqs7yo",
-                "selfLink": "https://www.googleapis.com/books/v1/volumes/6wFoEAAAQBAJ",
-                "volumeInfo": {
-                    "title": "The Diary of a Nobody",
-                    "authors": [
-                        "George Grossmith",
-                        "Weedon Grossmith"
-                    ],
-                    "publisher": "Lindhardt og Ringhof",
-                    "publishedDate": "2022-04-18",
-                    "description": "'The Diary of a Nobody' is a satirical, slapstick comedy about a Victorian family trying to work their way up in society. With a pompous dad, an accident prone son and a story full of shenanigans, it's easy to see how it paved the way for sitcoms like 'Modern Family' and 'Schitts Creek'. Written by the brothers George and Weedon Grossmith, this is a raucous tale that gives a window to the great British serial comedy. George and Weedon Grossmith were the sons of a court reporter, who was also a part-time stage entertainer. Although George started out as a reporter, both him and Weedon went on to work as entertainers on stage. After they both had successful careers as actors, comics and Weedon even having art exhibited at the Royal Academy, the pair combined their skills to write 'The Diary of a Nobody'.",
-                    "industryIdentifiers": [
-                        {
-                            "type": "ISBN_13",
-                            "identifier": "9788728258408"
-                        },
-                        {
-                            "type": "ISBN_10",
-                            "identifier": "8728258401"
-                        }
-                    ],
-                    "readingModes": {
-                        "text": true,
-                        "image": false
-                    },
-                    "printType": "BOOK",
-                    "categories": [
-                        "Fiction"
-                    ],
-                    "maturityRating": "NOT_MATURE",
-                    "allowAnonLogging": false,
-                    "contentVersion": "0.2.1.0.preview.2",
-                    "panelizationSummary": {
-                        "containsEpubBubbles": false,
-                        "containsImageBubbles": false
-                    },
-                    "imageLinks": {
-                        "smallThumbnail": "http://books.google.com/books/content?id=6wFoEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-                        "thumbnail": "http://books.google.com/books/content?id=6wFoEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                    },
-                    "language": "en",
-                    "previewLink": "http://books.google.co.uk/books?id=6wFoEAAAQBAJ&printsec=frontcover&dq=Victorian+family+trying+to+work+their+way+up+in+society.+With+a+pompous+dad,+an+accident+prone+son+and+a+story+full+of+shenanigans,+it%27s+easy+to+see+how+it+paved+the+way+for+sitcoms+like+%27Modern+Family%27+and+%27Schitts+Creek%27.+Written+by+the+brothers+George+and+Weedon+Grossmith,+this+is+a+raucous+tale+that+gives+a+window+to+the+great+British+serial+comedy.+George+and+Weedon+Grossmith+were+the+sons+of+a+court+reporter,+who+was+also+a+part-time+stag&hl=&cd=1&source=gbs_api",
-                    "infoLink": "https://play.google.com/store/books/details?id=6wFoEAAAQBAJ&source=gbs_api",
-                    "canonicalVolumeLink": "https://play.google.com/store/books/details?id=6wFoEAAAQBAJ"
-                },
-                "saleInfo": {
-                    "country": "GB",
-                    "saleability": "FOR_SALE",
-                    "isEbook": true,
-                    "listPrice": {
-                        "amount": 2,
-                        "currencyCode": "GBP"
-                    },
-                    "retailPrice": {
-                        "amount": 1.66,
-                        "currencyCode": "GBP"
-                    },
-                    "buyLink": "https://play.google.com/store/books/details?id=6wFoEAAAQBAJ&rdid=book-6wFoEAAAQBAJ&rdot=1&source=gbs_api",
-                    "offers": [
-                        {
-                            "finskyOfferType": 1,
-                            "listPrice": {
-                                "amountInMicros": 2000000,
-                                "currencyCode": "GBP"
-                            },
-                            "retailPrice": {
-                                "amountInMicros": 1660000,
-                                "currencyCode": "GBP"
-                            },
-                            "giftable": true
-                        }
-                    ]
-                },
-                "accessInfo": {
-                    "country": "GB",
-                    "viewability": "PARTIAL",
-                    "embeddable": true,
-                    "publicDomain": false,
-                    "textToSpeechPermission": "ALLOWED",
-                    "epub": {
-                        "isAvailable": true,
-                        "acsTokenLink": "http://books.google.co.uk/books/download/The_Diary_of_a_Nobody-sample-epub.acsm?id=6wFoEAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
-                    },
-                    "pdf": {
-                        "isAvailable": false
-                    },
-                    "webReaderLink": "http://play.google.com/books/reader?id=6wFoEAAAQBAJ&hl=&source=gbs_api",
-                    "accessViewStatus": "SAMPLE",
-                    "quoteSharingAllowed": false
-                },
-                "searchInfo": {
-                    "textSnippet": "Written by the brothers George and Weedon Grossmith, this is a raucous tale that gives a window to the great British serial comedy. George and Weedon Grossmith were the sons of a court reporter, who was also a part-time stage entertainer."
-                }
-            }
-        ]
-    };
+describe("getBooks", () => {
+  const mockBooksResult = {
+    totalItems: 2,
+    items: [
+      {
+        volumeInfo: {
+          authors: ['Author 1'],
+          title: 'Book 1',
+          publishedDate: '2023-01-01',
+          description: 'Sample description',
+        },
+      },
+      {
+        volumeInfo: {
+          authors: ['Author 2'],
+          title: 'Book 2',
+          publishedDate: '2021-01-01',
+          description: '2nd Sample description',
+        },
+      },
+    ],
+  };
 
-    // axios.get.mockResolvedValue(mockMovie)
-    axios.mockResolvedValue(mockMovie);
+  it("fetches books successfully", async () => {
+    const keyword = "test";
+    const maxResults = "10";
+    const startIndex = "0";
 
-    const response = await getBooks(mockKeyword)
+    jest.spyOn(axios, "get").mockResolvedValue({ data: mockBooksResult });
 
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get).toHaveBeenCalledWith(apiURL)
-    expect(response).toEqual(mockMovie)
-})
+    const result = await getBooks(keyword, maxResults, startIndex);
 
-it('should handle API errors', async () => {
-    // Mocking Axios get request with an error
-    const mockError = new Error('API error');
-    axios.mockRejectedValue(mockError);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining(keyword));
+    expect(result).toEqual(mockBooksResult);
+  });
+});
 
-    try {
-      // Your actual API call
-      await axios.get(apiURL);
-    } catch (error) {
-      expect(error).toEqual(mockError);
-      expect(axios.get).toHaveBeenCalledWith(apiURL);
-    }
+describe("getBooks error handling", () => {
+    it("handles API error", async () => {
+        const keyword = "test";
+        const maxResults = "10";
+        const startIndex = "0";
+    
+        const mockError = new Error("API error");
+        jest.spyOn(axios, "get").mockRejectedValue(mockError);
+    
+        await expect(getBooks(keyword, maxResults, startIndex)).rejects.toThrowError(mockError);
+        expect(axios.get).toHaveBeenCalledTimes(2);
+        expect(axios.get).toHaveBeenCalledWith(expect.stringContaining(keyword));
+      });
   });
