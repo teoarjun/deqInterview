@@ -32,10 +32,11 @@ app.get('/search', async(req: Request, res: Response)=>{
   }
 });
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   /* istanbul ignore next */
   console.log("Server is Successfully Running, and App is listening on port " + PORT);
 })
 .on('error', (error: Error) => {
+  /* istanbul ignore next */
   console.log("Error occurred, server can't start", error);
 });
