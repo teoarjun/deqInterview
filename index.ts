@@ -1,13 +1,13 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from "dotenv";
+import cors from "cors"
 import { getBooks } from "./api/getBooks"
 dotenv.config();
 
-const app: Express = express();
+export const app: Express = express();
 const PORT = 3003;
 
 app.use(express.json());
-var cors = require('cors');
 
 // use it before all route definitions
 app.use(cors());
@@ -25,7 +25,7 @@ app.get('/search', async(req: Request, res: Response)=>{
   if(keyword) {
     const books = await getBooks(keyword.toString(), maxResults, startIndex)
     res.status(200);
-    res.send(books.data)
+    res.send(books)
   } else {
     res.status(404);
     res.send("No data found");
@@ -33,6 +33,7 @@ app.get('/search', async(req: Request, res: Response)=>{
 });
 
 app.listen(PORT, () => {
+  /* istanbul ignore next */
   console.log("Server is Successfully Running, and App is listening on port " + PORT);
 })
 .on('error', (error: Error) => {
